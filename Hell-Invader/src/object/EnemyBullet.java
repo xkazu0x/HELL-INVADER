@@ -32,7 +32,7 @@ public class EnemyBullet extends GameObject {
 
         try {
 
-            BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream("/sprites/enemy_bullet_sprite.png"));
+            BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream("/sprite/enemy_bullet_sprite.png"));
             sprites[0] = spritesheet.getSubimage(0, 0, 8, 8);
             sprites[1] = spritesheet.getSubimage(8, 0, 8, 8);
             sprites[2] = spritesheet.getSubimage(16, 0, 8, 8);

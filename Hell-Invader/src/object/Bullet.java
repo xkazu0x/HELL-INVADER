@@ -25,7 +25,7 @@ public class Bullet extends GameObject {
 
         try {
 
-            image = ImageIO.read(getClass().getResourceAsStream("/sprites/player_bullet_sprite.png"));
+            image = ImageIO.read(getClass().getResourceAsStream("/sprite/player_bullet_sprite.png"));
 
         } catch(IOException e) {
             e.printStackTrace();

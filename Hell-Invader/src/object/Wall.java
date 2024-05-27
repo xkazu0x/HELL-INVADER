@@ -61,7 +61,7 @@ public class Wall extends GameObject {
 
         try {
 
-            BufferedImage sprite = ImageIO.read(getClass().getResourceAsStream("/sprites/wall_sprite.png"));
+            BufferedImage sprite = ImageIO.read(getClass().getResourceAsStream("/sprite/wall_sprite.png"));
             image = sprite.getSubimage(0, 0, 96, 8);
 
         } catch(IOException e) {

@@ -78,7 +78,7 @@ public class Player extends GameObject {
 
         try {
 
-            BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream("/sprites/player_sprite.png"));
+            BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream("/sprite/player_sprite.png"));
             sprites[0] = spritesheet.getSubimage(0, 0, 16, 16);
             sprites[1] = spritesheet.getSubimage(16, 0, 16, 16);
             sprites[2] = spritesheet.getSubimage(32, 0, 16, 16);

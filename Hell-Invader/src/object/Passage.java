@@ -36,7 +36,7 @@ public class Passage extends GameObject {
 
         try {
 
-            BufferedImage sprite = ImageIO.read(getClass().getResourceAsStream("/sprites/passage_sprite.png"));
+            BufferedImage sprite = ImageIO.read(getClass().getResourceAsStream("/sprite/passage_sprite.png"));
             image = sprite.getSubimage(0, 0, 24, 8);
 
         } catch(IOException e) {

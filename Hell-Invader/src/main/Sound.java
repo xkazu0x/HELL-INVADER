@@ -18,11 +18,11 @@ public class Sound {
         soundURL[1] = getClass().getResource("/sound/music/Nigro.wav");
         soundURL[2] = getClass().getResource("/sound/music/Hex96.wav");
         soundURL[3] = getClass().getResource("/sound/music/Prodromal.wav");
-        soundURL[4] = getClass().getResource("/sound/effects/plst00.wav");
-        soundURL[5] = getClass().getResource("/sound/effects/damage00.wav");
-        soundURL[6] = getClass().getResource("/sound/effects/graze.wav");
-        soundURL[7] = getClass().getResource("/sound/effects/tan00.wav");
-        soundURL[8] = getClass().getResource("/sound/effects/pldead00.wav");
+        soundURL[4] = getClass().getResource("/sound/effect/plst00.wav");
+        soundURL[5] = getClass().getResource("/sound/effect/damage00.wav");
+        soundURL[6] = getClass().getResource("/sound/effect/graze.wav");
+        soundURL[7] = getClass().getResource("/sound/effect/tan00.wav");
+        soundURL[8] = getClass().getResource("/sound/effect/pldead00.wav");
         soundURL[9] = getClass().getResource("/sound/music/Compression.wav");
     }
 
