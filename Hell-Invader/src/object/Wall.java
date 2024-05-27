@@ -96,6 +96,7 @@ public class Wall extends GameObject {
 
         if(this.intersects(player)) {
             if(!ok) {
+                gp.playSE(8);
                 player.hp--;
             }
         }

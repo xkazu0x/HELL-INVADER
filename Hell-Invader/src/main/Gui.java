@@ -37,7 +37,7 @@ public class Gui {
         }
 
         if(gp.gameState == gp.PLAY_STATE) {
-            drawPlayScreen();
+            drawBackground();
         }
 
         if(gp.gameState == gp.OVER_STATE) {
@@ -125,7 +125,7 @@ public class Gui {
         }
     }
 
-    public void drawPlayScreen() {
+    public void drawBackground() {
 
         g2.setFont(strongGamer.deriveFont(Font.PLAIN, 320F));
         String text = String.valueOf(gp.wall.speed - 5);
@@ -134,6 +134,7 @@ public class Gui {
         g2.setColor(new Color(40, 43, 51));
         g2.drawString(text, x, y);
 
+        /*
         g2.setFont(strongGamer.deriveFont(Font.PLAIN, 48F));
         text = "SCORE";
         x = getXForCentered(text);
@@ -147,23 +148,34 @@ public class Gui {
         y += gp.TILE_SIZE;
         g2.setColor(new Color(40, 43, 51));
         g2.drawString(text, x, y);
+         */
     }
 
-    public void drawTimer() {
+    public void drawPlayScreen() {
 
-        g2.setFont(strongGamer.deriveFont(Font.PLAIN, 16F));
+        // timer
+        g2.setFont(strongGamer.deriveFont(Font.PLAIN, 20F));
         String text = String.valueOf(gp.timerAlive.time);
-        int x = gp.player.x - gp.TILE_SIZE + gp.TILE_SIZE/3;
-        int y = gp.player.y + gp.TILE_SIZE*2 - gp.TILE_SIZE/2;
+        int x = gp.player.x - gp.TILE_SIZE + gp.ORIGINAL_TILE_SIZE/2;
+        int y = gp.player.y + gp.TILE_SIZE + gp.TILE_SIZE/2;
         g2.setColor(new Color(228,223,205));
         g2.drawString(text, x, y);
 
-        g2.setFont(strongGamer.deriveFont(Font.PLAIN, 16F));
+        // hp
+        g2.setFont(strongGamer.deriveFont(Font.PLAIN, 20F));
         text = String.valueOf(gp.player.hp);
         x = gp.player.x + gp.TILE_SIZE - gp.ORIGINAL_TILE_SIZE;
         y = gp.player.y - gp.TILE_SIZE/4;
         g2.setColor(new Color(228,223,205));
         g2.drawString(text + "HP", x, y);
+
+        // score
+        g2.setFont(strongGamer.deriveFont(Font.PLAIN, 24F));
+        text = String.valueOf(gp.score);
+        x = 0;
+        y = 20;
+        g2.setColor(new Color(228,223,205));
+        g2.drawString("SCORE: " + text, x, y);
     }
 
     public void drawOverScreen() {

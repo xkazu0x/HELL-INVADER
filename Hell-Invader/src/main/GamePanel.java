@@ -58,7 +58,7 @@ public class GamePanel extends JPanel implements Runnable {
         wall = new Wall(this);
         player = new Player(this, keyH);
         enemies = new ArrayList<>();
-        enemies.add(new Enemy(10, this));
+        enemies.add(new Enemy(SCREEN_WIDTH/2 - TILE_SIZE, this));
 
         score = 0;
 
@@ -108,6 +108,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         if(gameState == PLAY_STATE){
 
+            // enemy spawner
             timer++;
             if(timer % 30 == 0) {
                 int x = random.nextInt(SCREEN_WIDTH - TILE_SIZE*2);
@@ -134,7 +135,7 @@ public class GamePanel extends JPanel implements Runnable {
                         playSE(5);
                         player.bullets.remove(player.bullets.get(k));
                         enemies.get(i).hp--;
-                        score += 100;
+                        score += 10;
                     }
                 }
 
@@ -149,6 +150,7 @@ public class GamePanel extends JPanel implements Runnable {
                 if(enemies.get(i).y > SCREEN_HEIGHT || enemies.get(i).hp < 1) {
                     playSE(7);
                     enemies.remove(enemies.get(i));
+                    score += 100;
                 }
             }
         }
@@ -171,7 +173,7 @@ public class GamePanel extends JPanel implements Runnable {
 
             wall.draw(g2);
 
-            ui.drawTimer();
+            ui.drawPlayScreen();
 
             for(int i = 0; i < enemies.size(); i++) {
                 enemies.get(i).draw(g2);
@@ -179,6 +181,7 @@ public class GamePanel extends JPanel implements Runnable {
 
             player.draw(g2);
 
+            // draw hitbox
             if(keyH.hitbox) {
                 for(int i = 0; i < enemies.size(); i++) {
                     enemies.get(i).drawHitbox(Color.red, enemies.get(i).x, enemies.get(i).y, enemies.get(i).width, enemies.get(i).height, g2);
