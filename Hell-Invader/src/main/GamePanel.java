@@ -20,30 +20,30 @@ public class GamePanel extends JPanel implements Runnable {
     public final int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COL;
     public final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW;
 
-    // FPS
     public final int FPS = 60;
 
-    // SYSTEM
+    // system
     KeyHandler keyH = new KeyHandler(this);
     Sound sound = new Sound();
     Gui ui = new Gui(this);
-    public TimerAlive timerAlive = new TimerAlive();
     Thread gameThread;
 
-    // ENTITY
+    // objects
     public Wall wall;
     public Player player;
     public ArrayList<Enemy> enemies;
 
-    // GAME STATE
+    // game states
     public int gameState;
     public final int TITLE_STATE = 0;
     public final int PLAY_STATE = 1;
     public final int OVER_STATE = 2;
 
+    public TimerAlive timerAlive = new TimerAlive();
+    Random random = new Random();
     int score;
     int timer = 0;
-    Random random = new Random();
+
 
     public GamePanel() {
 
@@ -55,14 +55,14 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void setupGame() {
 
+        gameState = TITLE_STATE;
+
+        score = 0;
+
         wall = new Wall(this);
         player = new Player(this, keyH);
         enemies = new ArrayList<>();
         enemies.add(new Enemy(SCREEN_WIDTH/2 - TILE_SIZE, this));
-
-        score = 0;
-
-        gameState = TITLE_STATE;
     }
 
     public void startGameThread() {
@@ -78,28 +78,19 @@ public class GamePanel extends JPanel implements Runnable {
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
-        long timer = 0;
-        int drawCount = 0;
 
         while(gameThread != null) {
 
             currentTime = System.nanoTime();
 
             delta += (currentTime - lastTime) / drawInterval;
-            timer += (currentTime - lastTime);
+
             lastTime = currentTime;
 
             if(delta >= 1) {
                 update();
                 repaint();
                 delta--;
-                drawCount++;
-            }
-
-            if(timer >= 1000000000) {
-                //System.out.println("FPS: " + drawCount);
-                drawCount = 0;
-                timer = 0;
             }
         }
     }
@@ -108,24 +99,26 @@ public class GamePanel extends JPanel implements Runnable {
 
         if(gameState == PLAY_STATE){
 
+            // wall update
+            wall.update();
+            wall.checkPassage(player);
+
+            // player update
+            player.update();
+
             // enemy spawner
             timer++;
             if(timer % 30 == 0) {
                 int x = random.nextInt(SCREEN_WIDTH - TILE_SIZE*2);
                 enemies.add(new Enemy(x, this));
                 if(timer % 50 == 0) {
-                    int xx = random.nextInt(SCREEN_WIDTH - TILE_SIZE*2);
-                    enemies.add(new Enemy(xx, this));
+                    int x2 = random.nextInt(SCREEN_WIDTH - TILE_SIZE*2);
+                    enemies.add(new Enemy(x2, this));
                     timer = 0;
                 }
             }
 
-            wall.update();
-            wall.checkPassage(player);
-
-            player.update();
-
-            // enemy updates
+            // enemy update
             for(int i = 0; i < enemies.size(); i++) {
                 enemies.get(i).update();
 
@@ -139,6 +132,7 @@ public class GamePanel extends JPanel implements Runnable {
                     }
                 }
 
+                // enemy bullets intersects player
                 for(int j = 0; j < enemies.get(i).enemyBullets.size(); j++) {
                     if(player.intersects(enemies.get(i).enemyBullets.get(j))) {
                         playSE(8);
@@ -147,6 +141,7 @@ public class GamePanel extends JPanel implements Runnable {
                     }
                 }
 
+                // delete enemy
                 if(enemies.get(i).y > SCREEN_HEIGHT || enemies.get(i).hp < 1) {
                     playSE(7);
                     enemies.remove(enemies.get(i));
@@ -166,29 +161,39 @@ public class GamePanel extends JPanel implements Runnable {
         }
         if(gameState == PLAY_STATE) {
 
-            g2.setColor(Color.black);
-            g2.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-
+            // draw background
             ui.draw(g2);
 
+            // draw wall
             wall.draw(g2);
 
-            ui.drawPlayScreen();
+            // draw player
+            player.draw(g2);
 
+            // draw enemies
             for(int i = 0; i < enemies.size(); i++) {
                 enemies.get(i).draw(g2);
             }
 
-            player.draw(g2);
+            // draw ui
+            ui.drawPlayScreen();
 
             // draw hitbox
             if(keyH.hitbox) {
+
+                // wall
+                wall.drawHitbox(Color.red, wall.x, wall.y, wall.width, wall.height, g2);
+
+                // passage
+                wall.drawHitbox(Color.yellow, wall.pX, wall.y, TILE_SIZE*3, wall.height, g2);
+
+                // player
+                player.drawHitbox(Color.green, player.x , player.y, player.width, player.height, g2);
+
+                // enemy
                 for(int i = 0; i < enemies.size(); i++) {
                     enemies.get(i).drawHitbox(Color.red, enemies.get(i).x, enemies.get(i).y, enemies.get(i).width, enemies.get(i).height, g2);
                 }
-                player.drawHitbox(Color.green, player.x , player.y, player.width, player.height, g);
-                wall.drawHitbox(Color.red, wall.x, wall.y, wall.width, wall.height, g);
-                wall.drawHitbox(Color.yellow, wall.pX, wall.y, TILE_SIZE*3, wall.height, g);
             }
         }
 

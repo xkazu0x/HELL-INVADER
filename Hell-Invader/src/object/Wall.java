@@ -15,46 +15,18 @@ public class Wall extends GameObject {
     Passage passage;
     Random random;
 
-    public int speed;
-    int xIndex = 0;
     public int pX = 0;
+    int xIndex = 0;
+
     int timer = 0;
 
     public Wall(GamePanel gp) {
-        super(0, -gp.TILE_SIZE, gp.SCREEN_WIDTH, gp.TILE_SIZE);
+        super(0, -gp.TILE_SIZE, gp.SCREEN_WIDTH, gp.TILE_SIZE, 0, 5);
         this.gp = gp;
-
-        speed = 5;
 
         getImage();
 
         createPassage();
-    }
-
-    public void update() {
-
-        y += speed;
-
-        passage.update();
-
-        loopWall();
-
-        // SPEED TIMER
-        if(speed < 15) {
-            timer++;
-            if(timer == 30*gp.FPS) {
-                speed++;
-                passage.speed++;
-                timer = 0;
-            }
-        }
-    }
-
-    public void draw(Graphics g) {
-
-        g.drawImage(image, x, y, width, height, null);
-
-        passage.draw(g);
     }
 
     public void getImage() {
@@ -69,12 +41,40 @@ public class Wall extends GameObject {
         }
     }
 
+    public void update() {
+
+        y += vy;
+
+        passage.update();
+
+        loopWall();
+
+        // SPEED TIMER
+        if(vy < 15) {
+            timer++;
+            if(timer == 30*gp.FPS) {
+                vy++;
+                passage.vy++;
+                timer = 0;
+            }
+        }
+    }
+
+    public void draw(Graphics g) {
+
+        // draw wall
+        g.drawImage(image, x, y, width, height, null);
+
+        // draw passage
+        passage.draw(g);
+    }
+
     public void createPassage() {
 
         random = new Random();
         xIndex = random.nextInt(9);
         pX = xIndex * gp.TILE_SIZE;
-        passage = new Passage(pX, y, height, speed, gp);
+        passage = new Passage(pX, y, height, vy, gp);
     }
 
     public void loopWall() {
@@ -96,8 +96,7 @@ public class Wall extends GameObject {
 
         if(this.intersects(player)) {
             if(!ok) {
-                gp.playSE(8);
-                player.hp--;
+                player.hp = 0;
             }
         }
     }

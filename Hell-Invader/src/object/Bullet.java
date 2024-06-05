@@ -12,10 +12,8 @@ public class Bullet extends GameObject {
     GamePanel gp;
     BufferedImage image;
 
-    int speed = 50;
-
     public Bullet(int x, int y, GamePanel gp) {
-        super(x, y, gp.TILE_SIZE/4, gp.TILE_SIZE/4);
+        super(x, y, gp.TILE_SIZE/4, gp.TILE_SIZE/4, 0, 50);
         this.gp = gp;
 
         getImage();
@@ -35,13 +33,15 @@ public class Bullet extends GameObject {
 
     public void update() {
 
-        y -= speed;
+        y -= vy;
     }
 
     public void draw(Graphics g) {
 
+        // draw bullet
         g.drawImage(image, x - gp.TILE_SIZE/3, y - gp.TILE_SIZE/4, gp.TILE_SIZE, gp.TILE_SIZE, null);
 
+        // draw hitbox
         //g.setColor(Color.yellow);
         //g.drawRect(x, y, width, height);
     }

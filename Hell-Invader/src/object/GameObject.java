@@ -6,13 +6,16 @@ public class GameObject {
 
     public int x, y;
     public int width, height;
+    public int vx, vy;
 
-    public GameObject(int x, int y, int width, int height) {
+    public GameObject(int x, int y, int width, int height, int vx, int vy) {
 
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+        this.vx = vx;
+        this.vy = vy;
     }
 
     public boolean intersects(GameObject other) {

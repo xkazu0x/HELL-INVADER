@@ -12,18 +12,13 @@ public class EnemyBullet extends GameObject {
     GamePanel gp;
     BufferedImage[] sprites = new BufferedImage[4];
     BufferedImage image;
-    int vx;
-    int vy;
 
     int spriteCounter = 0;
     int spriteNum = 1;
 
     public EnemyBullet(int x, int y, int vx, int vy, GamePanel gp) {
-        super(x, y, gp.TILE_SIZE/4, gp.TILE_SIZE/4);
+        super(x, y, gp.TILE_SIZE/4, gp.TILE_SIZE/4, vx, vy);
         this.gp = gp;
-
-        this.vx = vx;
-        this.vy = vy;
 
         getImage();
     }
@@ -49,6 +44,7 @@ public class EnemyBullet extends GameObject {
         y += vy;
         x += vx;
 
+        // update image
         spriteCounter++;
         if(spriteCounter > 2) {
             if(spriteNum == 1) {
@@ -69,7 +65,7 @@ public class EnemyBullet extends GameObject {
 
     public void draw(Graphics g) {
 
-        // update image
+        // set image
         if(spriteNum == 1) {
             image = sprites[0];
         }
@@ -83,8 +79,10 @@ public class EnemyBullet extends GameObject {
             image = sprites[3];
         }
 
+        // draw enemy bullet
         g.drawImage(image, x - gp.TILE_SIZE/3, y - gp.TILE_SIZE/3, gp.TILE_SIZE, gp.TILE_SIZE, null);
 
+        // draw hitbox
         //g.setColor(Color.magenta);
         //g.drawRect(x, y, width, height);
     }
