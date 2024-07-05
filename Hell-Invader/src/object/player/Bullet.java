@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Bullet extends GameObject {
-    private GamePanel gp;
+    private final GamePanel gp;
     private BufferedImage image;
 
     public Bullet(float x, float y, GamePanel gp) {

@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class Gui {
-    private GamePanel gp;
+    private final GamePanel gp;
     private Graphics2D g2;
     private Font strongGamer;
     int timer = 0;

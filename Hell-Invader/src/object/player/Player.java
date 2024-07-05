@@ -11,9 +11,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Player extends GameObject {
-    private GamePanel gp;
-    private KeyHandler keyH;
-    private BufferedImage[] sprites;
+    private final GamePanel gp;
+    private final KeyHandler keyH;
+    private final BufferedImage[] sprites;
     private BufferedImage image;
     private String state;
 
@@ -22,8 +22,9 @@ public class Player extends GameObject {
     public boolean hitable = true;
     private int time = 0;
 
-    private float boost;
-    private int cooldown, threshhold;
+    private final float boost;
+    private int cooldown;
+    private final int threshhold;
 
     private int spriteCounter = 0;
     private int spriteNum = 1;
@@ -45,7 +46,7 @@ public class Player extends GameObject {
 
     public void getImage() {
         try {
-            BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream("/sprite/player_sprite.png"));
+            BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream("/sprite/player00_sprite.png"));
             sprites[0] = spritesheet.getSubimage(0, 0, 16, 16);
             sprites[1] = spritesheet.getSubimage(16, 0, 16, 16);
             sprites[2] = spritesheet.getSubimage(32, 0, 16, 16);

@@ -10,14 +10,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Enemy extends GameObject {
-    private GamePanel gp;
+    private final GamePanel gp;
     private BufferedImage image;
-    private BufferedImage[] sprites;
+    private final BufferedImage[] sprites;
     public ArrayList<EnemyBullet> enemyBullets;
 
     public int hp;
     public String state;
-    private int cooldown, threshhold;
+    private int cooldown;
+    private final int threshhold;
 
     public Enemy(float x, GamePanel gp) {
         super(x, -gp.TILE_SIZE*2, gp.TILE_SIZE*2, gp.TILE_SIZE*2, 0, 2);
@@ -35,7 +36,7 @@ public class Enemy extends GameObject {
 
     public void getImage() {
         try {
-            BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream("/sprite/enemy_sprite.png"));
+            BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream("/sprite/enemy_sprite00.png"));
             sprites[0] = spritesheet.getSubimage(0, 0, 16, 16);
             sprites[1] = spritesheet.getSubimage(16, 0, 16, 16);
         } catch(IOException e) {

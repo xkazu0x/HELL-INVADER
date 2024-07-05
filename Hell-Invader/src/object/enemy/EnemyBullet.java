@@ -9,8 +9,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class EnemyBullet extends GameObject {
-    private GamePanel gp;
-    private BufferedImage[] sprites;
+    private final GamePanel gp;
+    private final BufferedImage[] sprites;
     private BufferedImage image;
 
     private int spriteCounter = 0;

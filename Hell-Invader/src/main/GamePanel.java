@@ -46,10 +46,10 @@ public class GamePanel extends JPanel implements Runnable {
     // stats
     public int score = 0;
     private int timer = 0;
-    private int space = TILE_SIZE * 3;
+    private final int space = TILE_SIZE * 3;
 
     public TimerAlive timerAlive = new TimerAlive();
-    private Random random = new Random();
+    private final Random random = new Random();
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));

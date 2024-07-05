@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Random;
 
 public class Wall extends GameObject {
-    private GamePanel gp;
+    private final GamePanel gp;
     private BufferedImage image;
     private int tick = 0;
 
