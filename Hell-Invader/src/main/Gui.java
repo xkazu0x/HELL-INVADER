@@ -5,22 +5,17 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class Gui {
-
-    GamePanel gp;
-    Graphics2D g2;
-    Font strongGamer;
-
+    private GamePanel gp;
+    private Graphics2D g2;
+    private Font strongGamer;
     int timer = 0;
 
     public Gui(GamePanel gp) {
-
         this.gp = gp;
 
         try {
-
             InputStream is = getClass().getResourceAsStream("/font/TheStrongGamer.ttf");
             strongGamer = Font.createFont(Font.TRUETYPE_FONT, is);
-
         } catch(IOException e) {
             e.printStackTrace();
         } catch(FontFormatException e) {
@@ -29,24 +24,14 @@ public class Gui {
     }
 
     public void draw(Graphics2D g2) {
-
         this.g2 = g2;
 
-        if(gp.gameState == gp.TITLE_STATE) {
-            drawTitleScreen();
-        }
-
-        if(gp.gameState == gp.PLAY_STATE) {
-            drawBackground();
-        }
-
-        if(gp.gameState == gp.OVER_STATE) {
-            drawOverScreen();
-        }
+        if(gp.gameState == gp.TITLE_STATE) drawTitleScreen();
+        if(gp.gameState == gp.PLAY_STATE) drawBackground();
+        if(gp.gameState == gp.OVER_STATE) drawOverScreen();
     }
 
     public void drawTitleScreen() {
-
         // BACKGROUND
         g2.setColor(Color.black);
         g2.fillRect(0, 0, gp.SCREEN_WIDTH, gp.SCREEN_HEIGHT);
@@ -111,56 +96,37 @@ public class Gui {
 
         // PLAY
         timer++;
-        if(timer > 20) {
-
+        if(timer > 20 * 60) {
             g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 24F));
             text = "PRESS ENTER TO PLAY";
             x = getXForCentered(text);
             y = gp.SCREEN_HEIGHT/2 + gp.SCREEN_HEIGHT/3;
             g2.setColor(new Color(228,223,205));
             g2.drawString(text , x, y);
-            if(timer > 60) {
+            if(timer > 40 * 60) {
                 timer = 0;
             }
         }
     }
 
     public void drawBackground() {
-
         g2.setColor(Color.black);
         g2.fillRect(0, 0, gp.SCREEN_WIDTH, gp.SCREEN_HEIGHT);
 
         g2.setFont(strongGamer.deriveFont(Font.PLAIN, 320F));
-        String text = String.valueOf(gp.wall.vy - 5);
+        String text = String.valueOf((int)gp.wall.vy - 5);
         int x = getXForCentered(text);
         int y = gp.SCREEN_HEIGHT/2 + gp.TILE_SIZE/2;
         g2.setColor(new Color(40, 43, 51));
         g2.drawString(text, x, y);
-
-        /*
-        g2.setFont(strongGamer.deriveFont(Font.PLAIN, 48F));
-        text = "SCORE";
-        x = getXForCentered(text);
-        y += gp.TILE_SIZE*2 - gp.TILE_SIZE/2;
-        g2.setColor(new Color(40, 43, 51));
-        g2.drawString(text, x, y);
-
-        g2.setFont(strongGamer.deriveFont(Font.PLAIN, 48F));
-        text = String.valueOf(gp.score);
-        x = getXForCentered(text);
-        y += gp.TILE_SIZE;
-        g2.setColor(new Color(40, 43, 51));
-        g2.drawString(text, x, y);
-         */
     }
 
     public void drawPlayScreen() {
-
         // timer
         g2.setFont(strongGamer.deriveFont(Font.PLAIN, 20F));
         String text = String.valueOf(gp.timerAlive.time);
-        int x = gp.player.x - gp.TILE_SIZE + gp.ORIGINAL_TILE_SIZE/2;
-        int y = gp.player.y + gp.TILE_SIZE + gp.TILE_SIZE/2;
+        float x = gp.player.x - gp.TILE_SIZE + gp.ORIGINAL_TILE_SIZE/2;
+        float y = gp.player.y + gp.TILE_SIZE + gp.TILE_SIZE/2;
         g2.setColor(new Color(228,223,205));
         g2.drawString(text, x, y);
 
@@ -170,7 +136,7 @@ public class Gui {
         x = gp.player.x + gp.TILE_SIZE - gp.ORIGINAL_TILE_SIZE;
         y = gp.player.y - gp.TILE_SIZE/4;
         g2.setColor(new Color(228,223,205));
-        g2.drawString(text + "HP", x, y);
+        g2.drawString("HP:" + text, x, y);
 
         // score
         g2.setFont(strongGamer.deriveFont(Font.PLAIN, 24F));
@@ -182,7 +148,6 @@ public class Gui {
     }
 
     public void drawOverScreen() {
-
         // BACKGROUND
         g2.setColor(Color.black);
         g2.fillRect(0, 0, gp.SCREEN_WIDTH, gp.SCREEN_HEIGHT);
@@ -255,22 +220,20 @@ public class Gui {
 
         // RETRY
         timer++;
-        if(timer > 20) {
-
+        if(timer > 20 * 60) {
             g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 24F));
             text = "PRESS ENTER TO RETRY";
             x = getXForCentered(text);
             y = gp.SCREEN_HEIGHT/2 + gp.SCREEN_HEIGHT/3;
             g2.setColor(new Color(228,223,205));
             g2.drawString(text , x, y);
-            if(timer > 60) {
+            if(timer > 40 * 60) {
                 timer = 0;
             }
         }
     }
 
     public int getXForCentered(String text) {
-
         int textLength = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         return gp.SCREEN_WIDTH/2 - textLength/2;
     }

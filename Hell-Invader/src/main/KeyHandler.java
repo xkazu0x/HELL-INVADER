@@ -4,32 +4,23 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
-
-    GamePanel gp;
-
-    public boolean up, down, left, right, boost;
-    public boolean shoot;
+    private GamePanel gp;
+    public boolean up, down, left, right, shoot, boost;
     public boolean hitbox = false;
 
     public KeyHandler(GamePanel gp) {
         this.gp = gp;
     }
-
     @Override
     public void keyTyped(KeyEvent e) {
-
     }
-
     @Override
     public void keyPressed(KeyEvent e) {
-
         int code = e.getKeyCode();
-
         // TITLE STATE
         if(gp.gameState == gp.TITLE_STATE) {
-
             if(code == KeyEvent.VK_ENTER) {
-                gp.setupGame();
+                gp.init();
                 gp.timerAlive.createTimer();
                 gp.gameState = gp.PLAY_STATE;
             }
@@ -37,28 +28,10 @@ public class KeyHandler implements KeyListener {
                 System.exit(0);
             }
         }
-
         // PLAY STATE
         if(gp.gameState == gp.PLAY_STATE) {
+            toggle(e, true);
 
-            if(code == KeyEvent.VK_UP) {
-                up = true;
-            }
-            if(code == KeyEvent.VK_DOWN) {
-                down = true;
-            }
-            if(code == KeyEvent.VK_LEFT) {
-                left = true;
-            }
-            if(code == KeyEvent.VK_RIGHT) {
-                right = true;
-            }
-            if(code == KeyEvent.VK_SPACE) {
-                boost = true;
-            }
-            if(code == KeyEvent.VK_SHIFT) {
-                shoot = true;
-            }
             if(code == KeyEvent.VK_O) {
                 if(!hitbox) {
                     hitbox = true;
@@ -68,11 +41,10 @@ public class KeyHandler implements KeyListener {
                 }
             }
         }
-
         // GAME OVER STATE
         if(gp.gameState == gp.OVER_STATE) {
             if(code == KeyEvent.VK_ENTER) {
-                gp.setupGame();
+                gp.init();
                 gp.timerAlive.createTimer();
                 gp.gameState = gp.PLAY_STATE;
             }
@@ -81,29 +53,17 @@ public class KeyHandler implements KeyListener {
             }
         }
     }
-
     @Override
     public void keyReleased(KeyEvent e) {
+        toggle(e, false);
+    }
 
-        int code = e.getKeyCode();
-
-        if(code == KeyEvent.VK_UP) {
-            up = false;
-        }
-        if(code == KeyEvent.VK_DOWN) {
-            down = false;
-        }
-        if(code == KeyEvent.VK_LEFT) {
-            left = false;
-        }
-        if(code == KeyEvent.VK_RIGHT) {
-            right = false;
-        }
-        if(code == KeyEvent.VK_SPACE) {
-            boost = false;
-        }
-        if(code == KeyEvent.VK_SHIFT) {
-            shoot = false;
-        }
+    public void toggle(KeyEvent e, boolean pressed) {
+        if (e.getKeyCode() == KeyEvent.VK_UP) up = pressed;
+        if (e.getKeyCode() == KeyEvent.VK_DOWN) down = pressed;
+        if (e.getKeyCode() == KeyEvent.VK_LEFT) left = pressed;
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT) right = pressed;
+        if (e.getKeyCode() == KeyEvent.VK_SHIFT) shoot = pressed;
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) boost = pressed;
     }
 }

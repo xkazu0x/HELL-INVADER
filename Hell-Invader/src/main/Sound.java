@@ -7,13 +7,11 @@ import javax.sound.sampled.FloatControl;
 import java.net.URL;
 
 public class Sound {
-
-    Clip clip;
-    URL[] soundURL = new URL[10];
-    FloatControl fc;
+    private Clip clip;
+    private URL[] soundURL = new URL[10];
+    private FloatControl fc;
 
     public Sound() {
-
         soundURL[0] = getClass().getResource("/sound/music/dabella.wav");
         soundURL[1] = getClass().getResource("/sound/music/Nigro.wav");
         soundURL[2] = getClass().getResource("/sound/music/Hex96.wav");
@@ -27,33 +25,26 @@ public class Sound {
     }
 
     public void setFile(int i) {
-
         try {
-
             AudioInputStream ais = AudioSystem.getAudioInputStream(soundURL[i]);
             clip = AudioSystem.getClip();
             clip.open(ais);
             fc = (FloatControl)clip.getControl(FloatControl.Type.MASTER_GAIN);
-            fc.setValue(-15f);
-
+            fc.setValue(-20f);
         } catch(Exception e) {
-
+            e.printStackTrace();
         }
-
     }
 
     public void play() {
-
         clip.start();
     }
 
     public void loop() {
-
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
     public void stop() {
-
         clip.stop();
     }
 }

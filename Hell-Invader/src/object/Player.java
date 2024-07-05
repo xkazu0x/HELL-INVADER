@@ -10,30 +10,32 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Player extends GameObject {
+    private GamePanel gp;
+    private KeyHandler keyH;
+    private BufferedImage[] sprites;
+    private BufferedImage image;
+    private String state;
 
-    GamePanel gp;
-    KeyHandler keyH;
-    BufferedImage[] sprites = new BufferedImage[3];
-    BufferedImage image;
-    String direction;
     public ArrayList<Bullet> bullets = new ArrayList<>();
-
     public int hp;
-    float boost;
+    public boolean hitable = true;
+    private int time = 0;
 
-    int cooldown, threshhold;
+    private float boost;
+    private int cooldown, threshhold;
+
+    private int spriteCounter = 0;
+    private int spriteNum = 1;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         super(gp.SCREEN_WIDTH/2 - gp.TILE_SIZE/6, gp.SCREEN_HEIGHT - gp.TILE_SIZE*2,
-                gp.TILE_SIZE/4, gp.TILE_SIZE/4, 6, 6);
+                gp.TILE_SIZE/4, gp.TILE_SIZE/2, 6, 6);
         this.gp = gp;
         this.keyH = keyH;
-
+        sprites = new BufferedImage[4];
+        state = "idle";
         hp = 5;
         boost = 1.2f;
-
-        direction = "idle";
-
         threshhold = 6;
         cooldown = threshhold;
 
@@ -41,35 +43,43 @@ public class Player extends GameObject {
     }
 
     public void getImage() {
-
         try {
-
             BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream("/sprite/player_sprite.png"));
             sprites[0] = spritesheet.getSubimage(0, 0, 16, 16);
             sprites[1] = spritesheet.getSubimage(16, 0, 16, 16);
             sprites[2] = spritesheet.getSubimage(32, 0, 16, 16);
-
-            image = sprites[0];
-
+            sprites[3] = spritesheet.getSubimage(48, 0, 16, 16);
         } catch(IOException e) {
             e.printStackTrace();
         }
     }
 
     public void update() {
-
         setInputs();
-
-        setAnimation();
-
-        setScreenLimit();
-
-        // destroy timer
-        if(hp == 0) {
-            gp.timerAlive.destroyTimer();
-            gp.gameState = gp.OVER_STATE;
+        // invencible
+        if (!hitable) {
+            time++;
+            if (time == 90) {
+                hitable = true;
+                time = 0;
+            }
         }
-
+        // screen limit
+        if(x <= 0) x = 0;
+        if(y <= 0) y = 0;
+        if(x >= gp.SCREEN_WIDTH - width)  x = gp.SCREEN_WIDTH - width;
+        if(y >= gp.SCREEN_HEIGHT - height) y = gp.SCREEN_HEIGHT - height;
+        // animation
+        spriteCounter++;
+        if(spriteCounter > 4) {
+            if(spriteNum == 1) {
+                spriteNum = 2;
+            }
+            else if(spriteNum == 2) {
+                spriteNum = 1;
+            }
+            spriteCounter = 0;
+        }
         // update bullets
         for (int i = 0; i < bullets.size(); i++) {
             bullets.get(i).update();
@@ -78,74 +88,16 @@ public class Player extends GameObject {
                 bullets.remove(bullets.get(i));
             }
         }
+        // destroy timer
+        if(hp == 0) {
+            gp.timerAlive.destroyTimer();
+            gp.gameState = gp.OVER_STATE;
+        }
     }
 
     public void draw(Graphics g) {
-
-        // draw player
-        g.drawImage(image, x - gp.TILE_SIZE + gp.TILE_SIZE/6, y - gp.TILE_SIZE + gp.TILE_SIZE/8,
-                gp.TILE_SIZE*2, gp.TILE_SIZE*2, null);
-
-        // draw bullets
-        for (int i = 0; i < bullets.size(); i++) {
-            bullets.get(i).draw(g);
-        }
-    }
-
-    public void setInputs() {
-
-        // MOVEMENT KEYS
-        if(keyH.left) {
-            direction = "left";
-            x -= vx;
-            if(keyH.boost) {
-                x -= vx * boost;
-            }
-        }
-        if(keyH.right) {
-            direction = "right";
-            x += vx;
-            if(keyH.boost) {
-                x += vx * boost;
-            }
-        }
-        if(keyH.up) {
-            direction = "idle";
-            y -= vy;
-        }
-        if(keyH.down) {
-            direction = "idle";
-            y += vy;
-        }
-
-        if(keyH.up && keyH.left) {
-            direction = "left";
-        }
-        if(keyH.up && keyH.right) {
-            direction = "right";
-        }
-        if(keyH.left && keyH.right) {
-            direction = "idle";
-        }
-        if(!keyH.left && !keyH.right) {
-            direction = "idle";
-        }
-
-        // control fire rate
-        cooldown++;
-        if(keyH.shoot && cooldown >= threshhold) {
-            gp.playSE(4);
-            bullets.add(new Bullet(x - gp.TILE_SIZE/4, y, gp));
-            bullets.add(new Bullet(x+width, y, gp));
-            cooldown = 0;
-        }
-
-    }
-
-    public void setAnimation() {
-
-        // animation
-        switch (direction) {
+        // set image
+        switch (state) {
             case "idle":
                 image = sprites[0];
                 break;
@@ -155,21 +107,65 @@ public class Player extends GameObject {
             case "right":
                 image = sprites[2];
         }
+
+        if(!hitable) {
+            if (spriteNum == 1) {
+                image = sprites[3];
+            }
+            if (spriteNum == 2) {
+                image = sprites[0];
+            }
+        }
+
+        g.drawImage(image, (int)x - gp.TILE_SIZE + gp.TILE_SIZE/6, (int)y - gp.TILE_SIZE + gp.TILE_SIZE/2,
+                gp.TILE_SIZE*2, gp.TILE_SIZE*2, null);
+
+        for (int i = 0; i < bullets.size(); i++) {
+            bullets.get(i).draw(g);
+        }
     }
 
-    public void setScreenLimit() {
-
-        if(x < 0) {
-            x = 0;
+    public void setInputs() {
+        // movement
+        if(keyH.left) {
+            state = "left";
+            x -= vx;
+            if(keyH.boost) {
+                x -= vx * boost;
+            }
         }
-        if(x > gp.SCREEN_WIDTH - width) {
-            x = gp.SCREEN_WIDTH - width;
+        if(keyH.right) {
+            state = "right";
+            x += vx;
+            if(keyH.boost) {
+                x += vx * boost;
+            }
         }
-        if(y < 0) {
-            y = 0;
+        if(keyH.up) {
+            state = "idle";
+            y -= vy;
         }
-        if(y > gp.SCREEN_HEIGHT - height) {
-            y = gp.SCREEN_HEIGHT - height;
+        if(keyH.down) {
+            state = "idle";
+            y += vy;
+        }
+        if(keyH.up && keyH.left || keyH.down && keyH.left) {
+            state = "left";
+        }
+        if(keyH.up && keyH.right || keyH.down && keyH.right) {
+            state = "right";
+        }
+        if(keyH.left && keyH.right || !keyH.left && !keyH.right) {
+            state = "idle";
+        }
+        // control fire rate
+        cooldown++;
+        if(keyH.shoot && cooldown >= threshhold) {
+            gp.playSE(4);
+            int offset = (width*4 / 2);
+            bullets.add(new Bullet(x - offset, y, gp));
+            bullets.add(new Bullet(x + offset, y, gp));
+            cooldown = 0;
         }
     }
 }

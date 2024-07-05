@@ -3,13 +3,11 @@ package object;
 import java.awt.*;
 
 public class GameObject {
-
-    public int x, y;
+    public float x, y;
+    public float vx, vy;
     public int width, height;
-    public int vx, vy;
 
-    public GameObject(int x, int y, int width, int height, int vx, int vy) {
-
+    public GameObject(float x, float y, int width, int height, float vx, float vy) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -19,16 +17,15 @@ public class GameObject {
     }
 
     public boolean intersects(GameObject other) {
+        float left = x;
+        float right = x + width;
+        float top = y;
+        float bottom = y + height;
 
-        int left = x;
-        int right = x + width;
-        int top = y;
-        int bottom = y + height;
-
-        int oleft = other.x;
-        int oright = other.x + other.width;
-        int otop = other.y;
-        int obottom = other.y + other.height;
+        float oleft = other.x;
+        float oright = other.x + other.width;
+        float otop = other.y;
+        float obottom = other.y + other.height;
 
         return !(left >= oright ||
                 right <= oleft ||
@@ -37,7 +34,6 @@ public class GameObject {
     }
 
     public void drawHitbox(Color color, int x, int y, int width, int height, Graphics g) {
-
         g.setColor(color);
         g.drawRect(x, y, width, height);
     }

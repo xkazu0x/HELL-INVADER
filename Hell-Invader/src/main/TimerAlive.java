@@ -4,11 +4,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class TimerAlive {
-
     public String time;
-    int i = 0;
-
-    Timer timer;
+    private int i = 0;
+    private Timer timer;
 
     public void createTimer() {
         i = 0;
@@ -28,7 +26,6 @@ public class TimerAlive {
     }
 
     public String getTime(int sec) {
-
         int minutes = 0;
         int remainderOfMinutes = 0;
         int seconds = 0;
@@ -78,7 +75,6 @@ public class TimerAlive {
             strMins = "0" + minutes;
         else
             strMins = Integer.toString(minutes);
-
 
         String time =  strMins + ":" + strSecs + ":" + strMili;
         return time;

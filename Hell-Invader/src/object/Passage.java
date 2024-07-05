@@ -8,13 +8,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Passage extends GameObject {
-
-    GamePanel gp;
-    BufferedImage image;
+    private BufferedImage image;
 
     public Passage(int x, int y, int height, int vy, GamePanel gp) {
         super(x, y, gp.TILE_SIZE*3, height, 0, vy);
-        this.gp = gp;
 
         getImage();
     }
@@ -39,6 +36,6 @@ public class Passage extends GameObject {
     public void draw(Graphics g) {
 
         // draw passage
-        g.drawImage(image, x, y, width, height, null);
+        g.drawImage(image, (int)x, (int)y, width, height, null);
     }
 }
