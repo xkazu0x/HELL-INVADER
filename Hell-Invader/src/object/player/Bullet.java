@@ -1,6 +1,7 @@
-package object;
+package object.player;
 
 import main.GamePanel;
+import object.GameObject;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

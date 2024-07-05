@@ -1,7 +1,8 @@
-package object;
+package object.player;
 
 import main.GamePanel;
-import main.KeyHandler;
+import main.utilits.KeyHandler;
+import object.GameObject;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -34,7 +35,7 @@ public class Player extends GameObject {
         this.keyH = keyH;
         sprites = new BufferedImage[4];
         state = "idle";
-        hp = 5;
+        hp = 3;
         boost = 1.2f;
         threshhold = 6;
         cooldown = threshhold;
@@ -59,7 +60,7 @@ public class Player extends GameObject {
         // invencible
         if (!hitable) {
             time++;
-            if (time == 90) {
+            if (time == 180) {
                 hitable = true;
                 time = 0;
             }
@@ -89,7 +90,7 @@ public class Player extends GameObject {
             }
         }
         // destroy timer
-        if(hp == 0) {
+        if(hp < 0) {
             gp.timerAlive.destroyTimer();
             gp.gameState = gp.OVER_STATE;
         }

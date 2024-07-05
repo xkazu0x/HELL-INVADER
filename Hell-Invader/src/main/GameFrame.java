@@ -14,6 +14,6 @@ public class GameFrame {
         frame.setVisible(true);
 
         gp.playMusic(0);
-        gp.startGameThread();
+        gp.start();
     }
 }

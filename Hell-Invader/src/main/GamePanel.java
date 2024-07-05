@@ -1,8 +1,12 @@
 package main;
 
-import object.Enemy;
-import object.Wall;
-import object.Player;
+import main.utilits.Gui;
+import main.utilits.KeyHandler;
+import main.utilits.Sound;
+import main.utilits.TimerAlive;
+import object.enemy.Enemy;
+import object.wall.Wall;
+import object.player.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,9 +32,10 @@ public class GamePanel extends JPanel implements Runnable {
     private Thread thread;
 
     // objects
-    public Wall wall;
     public Player player;
     public ArrayList<Enemy> enemies;
+    public Wall lWall;
+    public Wall rWall;
 
     // game states
     public int gameState;
@@ -41,6 +46,7 @@ public class GamePanel extends JPanel implements Runnable {
     // stats
     public int score = 0;
     private int timer = 0;
+    private int space = TILE_SIZE * 3;
 
     public TimerAlive timerAlive = new TimerAlive();
     private Random random = new Random();
@@ -52,19 +58,22 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
     }
 
+    public void start() {
+        thread = new Thread(this);
+        thread.start();
+    }
+
     public void init() {
         gameState = TITLE_STATE;
         score = 0;
 
-        wall = new Wall(this);
         player = new Player(this, keyH);
         enemies = new ArrayList<>();
-        enemies.add(new Enemy(SCREEN_WIDTH/2 - TILE_SIZE, this));
-    }
 
-    public void startGameThread() {
-        thread = new Thread(this);
-        thread.start();
+        int x0 = random.nextInt(3, 12) * TILE_SIZE;
+        int x1 = x0 - SCREEN_WIDTH - space;
+        rWall = new Wall(x0, this);
+        lWall = new Wall(x1, this);
     }
 
     @Override
@@ -81,17 +90,30 @@ public class GamePanel extends JPanel implements Runnable {
 
             if (delta >= 1) {
                 update();
+                repaint();
                 delta--;
             }
-            repaint();
         }
     }
 
     public void update() {
         if (gameState == PLAY_STATE){
             player.update();
-            wall.update();
-            wall.checkPassage(player);
+
+            lWall.update();
+            rWall.update();
+            lWall.checkPassage(player);
+            rWall.checkPassage(player);
+
+            if (lWall.y > SCREEN_HEIGHT || rWall.y > SCREEN_HEIGHT) {
+                lWall.y = -TILE_SIZE;
+                rWall.y = -TILE_SIZE;
+
+                int x0 = random.nextInt(3, 12) * TILE_SIZE;
+                int x1 = x0 - SCREEN_WIDTH - space;
+                rWall.x = x0;
+                lWall.x = x1;
+            }
 
             // enemy spawner
             timer++;
@@ -143,31 +165,15 @@ public class GamePanel extends JPanel implements Runnable {
             // draw background
             ui.draw(g2);
 
-            wall.draw(g2);
             player.draw(g2);
+            lWall.draw(g2);
+            rWall.draw(g2);
             for(int i = 0; i < enemies.size(); i++) {
                 enemies.get(i).draw(g2);
             }
 
             // draw ui
             ui.drawPlayScreen();
-
-            // draw hitbox
-            if(keyH.hitbox) {
-                // wall
-                wall.drawHitbox(Color.red, (int)wall.x, (int)wall.y, wall.width, wall.height, g2);
-
-                // passage
-                wall.drawHitbox(Color.yellow, wall.pX, (int) wall.y, TILE_SIZE*3, wall.height, g2);
-
-                // player
-                player.drawHitbox(Color.green, (int)player.x , (int)player.y, player.width, player.height, g2);
-
-                // enemy
-                for(int i = 0; i < enemies.size(); i++) {
-                    enemies.get(i).drawHitbox(Color.red, (int)enemies.get(i).x, (int)enemies.get(i).y, enemies.get(i).width, enemies.get(i).height, g2);
-                }
-            }
         }
         g2.dispose();
     }

@@ -1,4 +1,6 @@
-package main;
+package main.utilits;
+
+import main.GamePanel;
 
 import java.awt.*;
 import java.io.IOException;
@@ -96,14 +98,14 @@ public class Gui {
 
         // PLAY
         timer++;
-        if(timer > 20 * 60) {
+        if(timer > 20) {
             g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 24F));
             text = "PRESS ENTER TO PLAY";
             x = getXForCentered(text);
             y = gp.SCREEN_HEIGHT/2 + gp.SCREEN_HEIGHT/3;
             g2.setColor(new Color(228,223,205));
             g2.drawString(text , x, y);
-            if(timer > 40 * 60) {
+            if(timer > 60) {
                 timer = 0;
             }
         }
@@ -114,7 +116,7 @@ public class Gui {
         g2.fillRect(0, 0, gp.SCREEN_WIDTH, gp.SCREEN_HEIGHT);
 
         g2.setFont(strongGamer.deriveFont(Font.PLAIN, 320F));
-        String text = String.valueOf((int)gp.wall.vy - 5);
+        String text = String.valueOf((int)gp.lWall.vy - 5);
         int x = getXForCentered(text);
         int y = gp.SCREEN_HEIGHT/2 + gp.TILE_SIZE/2;
         g2.setColor(new Color(40, 43, 51));
@@ -220,14 +222,14 @@ public class Gui {
 
         // RETRY
         timer++;
-        if(timer > 20 * 60) {
+        if(timer > 20) {
             g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 24F));
             text = "PRESS ENTER TO RETRY";
             x = getXForCentered(text);
             y = gp.SCREEN_HEIGHT/2 + gp.SCREEN_HEIGHT/3;
             g2.setColor(new Color(228,223,205));
             g2.drawString(text , x, y);
-            if(timer > 40 * 60) {
+            if(timer > 60) {
                 timer = 0;
             }
         }
