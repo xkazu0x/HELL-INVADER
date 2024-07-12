@@ -18,7 +18,7 @@ public class GameFrame {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        gp.playMusic(0);
+        gp.playMusic(2);
         gp.start();
     }
 }

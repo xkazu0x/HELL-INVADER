@@ -13,15 +13,13 @@ public class Sound {
 
     public Sound() {
         soundURL[0] = getClass().getResource("/sound/music/dabella.wav");
-        soundURL[1] = getClass().getResource("/sound/music/Nigro.wav");
-        soundURL[2] = getClass().getResource("/sound/music/Hex96.wav");
-        soundURL[3] = getClass().getResource("/sound/music/Prodromal.wav");
+        soundURL[1] = getClass().getResource("/sound/music/Aanguish.wav");
+        soundURL[2] = getClass().getResource("/sound/music/DEATH-THE-LEVELLER.wav");
         soundURL[4] = getClass().getResource("/sound/effect/plst00.wav");
         soundURL[5] = getClass().getResource("/sound/effect/damage00.wav");
         soundURL[6] = getClass().getResource("/sound/effect/graze.wav");
         soundURL[7] = getClass().getResource("/sound/effect/tan00.wav");
         soundURL[8] = getClass().getResource("/sound/effect/pldead00.wav");
-        soundURL[9] = getClass().getResource("/sound/music/Compression.wav");
     }
 
     public void setFile(int i) {
@@ -30,7 +28,7 @@ public class Sound {
             clip = AudioSystem.getClip();
             clip.open(ais);
             fc = (FloatControl)clip.getControl(FloatControl.Type.MASTER_GAIN);
-            fc.setValue(-20f);
+            //fc.setValue(-10f);
         } catch(Exception e) {
             e.printStackTrace();
         }
