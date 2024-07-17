@@ -1,6 +1,7 @@
 # HELL INVADER
 
 **HELL INVADER** is a simple shoot 'em up game where you shoot 'things' that are trying to kill you.
+You also have to be careful with a wall that comes towards you, this wall speed up over time.
 The purpose is to live and kill as many 'things' as possible. After death is displayed the score and the time survived.
 
 ![hell-invader](https://github.com/user-attachments/assets/73648e97-2167-4c94-9e06-e7fb87dd9176)
