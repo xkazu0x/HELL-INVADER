@@ -8,8 +8,8 @@ The purpose is to live and kill as many 'things' as possible. After death is dis
 
 ## Consideration
 
-This is my first college project. This project was created to study the java language through a development of a game.
-It ended up exceeding my expectations and I was very happy with the completion of this project. All sprites made by myself.
+This is my first college project. This is not a perfect project, it was created to study the java language through a development of a game.
+It ended up exceeding my expectations and I was very happy with the result. All sprites were made by myself.
 
 ## Credits
 
