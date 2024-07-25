@@ -207,7 +207,7 @@ public class Gui {
         g2.drawString(text , x, y);
 
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 24F));
-        text = "BE REBORN";
+        text = "REVIVE";
         x = getXForCentered(text);
         y += gp.TILE_SIZE;
         g2.setColor(new Color(228,223,205));

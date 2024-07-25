@@ -36,7 +36,7 @@ public class Enemy extends GameObject {
 
     public void getImage() {
         try {
-            BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream("/sprite/enemy_sprite00.png"));
+            BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream("/sprite/enemy_sprite.png"));
             sprites[0] = spritesheet.getSubimage(0, 0, 16, 16);
             sprites[1] = spritesheet.getSubimage(16, 0, 16, 16);
         } catch(IOException e) {
