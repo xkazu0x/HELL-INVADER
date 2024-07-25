@@ -6,7 +6,9 @@ Also, there are walls that comes towards you that speed up over time, you might 
 After death, it is displayed the score and the time survived.
 
 ## Screenshots
+
 ![hell-invader](https://github.com/user-attachments/assets/73648e97-2167-4c94-9e06-e7fb87dd9176)
+![game-over-screen](https://github.com/user-attachments/assets/9251a7da-4756-4348-8756-9581b2bfe096)
 
 ## Consideration
 
