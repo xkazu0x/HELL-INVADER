@@ -5,6 +5,8 @@ Demons are trying to kill you, and you should kill them before they kill you.
 Also, there are walls that comes towards you that speed up over time, you might die if you collide with them.
 After death, it is displayed the score and the time survived.
 
+You can click <a href="https://github.com/kazu0631/HELL-INVADER/releases/tag/1.0.0">here</a> to download.
+
 ## Screenshots
 
 ![hell-invader](https://github.com/user-attachments/assets/73648e97-2167-4c94-9e06-e7fb87dd9176)
